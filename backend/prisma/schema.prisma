@@ -18,9 +18,11 @@ model User {
   password   String
   name       String
   role       Role         @default(PATIENT)
-  symptoms   SymptomLog[]
-  createdAt  DateTime     @default(now())
-  updatedAt  DateTime     @updatedAt
+  symptoms     SymptomLog[]
+  medications  Medication[]
+  appointments Appointment[]
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime     @updatedAt
 }
 
 model SymptomLog {
@@ -38,4 +40,42 @@ model SymptomLog {
   updatedAt       DateTime @updatedAt
 
   @@index([userId, timestamp])
+}
+
+model Medication {
+  id        String   @id @default(uuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  name      String
+  dosage    String
+  frequency String   // e.g., "Twice a day", "Every 8 hours"
+  startDate DateTime
+  endDate   DateTime?
+  notes     String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([userId])
+}
+
+model Appointment {
+  id        String   @id @default(uuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  doctorName String
+  specialty String?
+  date      DateTime
+  location  String?
+  notes     String?
+  status    AppointmentStatus @default(SCHEDULED)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([userId, date])
+}
+
+enum AppointmentStatus {
+  SCHEDULED
+  COMPLETED
+  CANCELLED
 }
