@@ -6,11 +6,36 @@ datasource db {
   provider = "postgresql"
 }
 
+enum Role {
+  PATIENT
+  DOCTOR
+  ADMIN
+}
+
 model User {
-  id        String   @id @default(uuid())
-  email     String   @unique
-  password  String
-  name      String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id         String       @id @default(uuid())
+  email      String       @unique
+  password   String
+  name       String
+  role       Role         @default(PATIENT)
+  symptoms   SymptomLog[]
+  createdAt  DateTime     @default(now())
+  updatedAt  DateTime     @updatedAt
+}
+
+model SymptomLog {
+  id              String   @id @default(uuid())
+  userId          String
+  user            User     @relation(fields: [userId], references: [id])
+  symptomName     String
+  severity        Int      // 1-10
+  notes           String?
+  duration        Int?     // minutes
+  temperature     Float?
+  medicationTaken String?
+  timestamp       DateTime @default(now())
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@index([userId, timestamp])
 }
