@@ -39,6 +39,11 @@ export const createSymptom = async (req: AuthRequest, res: Response) => {
       },
     });
 
+    const io = req.app.get('io');
+    if (io) {
+      io.to(`room_${userId}`).emit('symptom_created', symptomLog);
+    }
+
     res.status(201).json({
       message: 'Symptom log created successfully',
       symptomLog,
