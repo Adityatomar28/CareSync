@@ -8,6 +8,7 @@ import authRoutes from './routes/auth.routes';
 import symptomRoutes from './routes/symptom.routes';
 import medicationRoutes from './routes/medication.routes';
 import appointmentRoutes from './routes/appointment.routes';
+import chatRoutes from './routes/chat.routes';
 
 const app = express();
 const PORT = process.env.PORT || 5001;
@@ -62,6 +63,7 @@ app.use('/api/auth', authRoutes);
 app.use('/api/symptoms', symptomRoutes);
 app.use('/api/medications', medicationRoutes);
 app.use('/api/appointments', appointmentRoutes);
+app.use('/api/chat', chatRoutes);
 
 // Health Check
 app.get('/api/health', (req, res) => {

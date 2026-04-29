@@ -10,6 +10,7 @@ import Medications from './pages/Medications';
 import Appointments from './pages/Appointments';
 import Symptoms from './pages/Symptoms';
 import CalendarView from './pages/CalendarView';
+import Chat from './pages/Chat';
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
             <Route element={<DashboardLayout />}>
               <Route index element={<DashboardHome />} />
               <Route path="calendar" element={<CalendarView />} />
+              <Route path="chat" element={<Chat />} />
               <Route path="symptoms" element={<Symptoms />} />
               <Route path="medications" element={<Medications />} />
               <Route path="appointments" element={<Appointments />} />
