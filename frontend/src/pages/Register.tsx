@@ -15,7 +15,7 @@ export default function Register() {
     e.preventDefault();
     try {
       setError('');
-      const response = await api.post('/auth/signup', { name, email, password });
+      const response = await api.post('/auth/register', { name, email, password });
       login(response.data.token, response.data.user);
       navigate('/dashboard');
     } catch (err: any) {

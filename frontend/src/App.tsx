@@ -8,6 +8,8 @@ import DashboardLayout from './pages/DashboardLayout';
 import DashboardHome from './pages/DashboardHome';
 import Medications from './pages/Medications';
 import Appointments from './pages/Appointments';
+import Symptoms from './pages/Symptoms';
+import CalendarView from './pages/CalendarView';
 
 function App() {
   return (
@@ -20,6 +22,8 @@ function App() {
           <Route path="/dashboard" element={<ProtectedRoute />}>
             <Route element={<DashboardLayout />}>
               <Route index element={<DashboardHome />} />
+              <Route path="calendar" element={<CalendarView />} />
+              <Route path="symptoms" element={<Symptoms />} />
               <Route path="medications" element={<Medications />} />
               <Route path="appointments" element={<Appointments />} />
             </Route>

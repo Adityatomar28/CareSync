@@ -1,6 +1,6 @@
+import 'dotenv/config';
 import express from 'express';
 import cors from 'cors';
-import dotenv from 'dotenv';
 import { createServer } from 'http';
 import { Server } from 'socket.io';
 import jwt from 'jsonwebtoken';
@@ -8,8 +8,6 @@ import authRoutes from './routes/auth.routes';
 import symptomRoutes from './routes/symptom.routes';
 import medicationRoutes from './routes/medication.routes';
 import appointmentRoutes from './routes/appointment.routes';
-
-dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 5001;
