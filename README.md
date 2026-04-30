@@ -1,503 +1,219 @@
-# REST API Example with Express & Prisma Postgres
+<div align="center">
 
-This example shows how to implement a **REST API with TypeScript** using [Express](https://expressjs.com/), Prisma ORM and a [Prisma Postgres](https://www.prisma.io/postgres) database.
+# 🏥 CareSync
 
-## Getting started
+**A comprehensive, modern healthcare platform — built for patients, doctors, and admins.**
 
-### 1. Download example and navigate into the project directory
+[![License: ISC](https://img.shields.io/badge/License-ISC-blue.svg)](https://opensource.org/licenses/ISC)
+[![React](https://img.shields.io/badge/React-19-61DAFB?logo=react)](https://react.dev/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5-3178C6?logo=typescript)](https://www.typescriptlang.org/)
+[![Node.js](https://img.shields.io/badge/Node.js-18+-339933?logo=node.js)](https://nodejs.org/)
+[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-Latest-4169E1?logo=postgresql)](https://www.postgresql.org/)
 
-Download this example:
+> CareSync (formerly SymptomSync) helps patients track symptoms, manage medications, schedule appointments, and get AI-powered health insights — all in a sleek, real-time dashboard.
 
-```terminal
-npx try-prisma@latest --template orm/express --install npm --name express
+</div>
+
+---
+
+## 📸 Preview
+
+> Dashboard overview with live health metrics, symptom trend graphs, and appointment tracking.
+
+![CareSync Dashboard](./screenshot.png)
+
+---
+
+## ✨ What CareSync Does
+
+| Feature | Description |
+|---|---|
+| 🔐 **Auth & Roles** | Secure JWT login with Role-Based Access (Patient / Doctor / Admin) |
+| 📊 **Dashboard** | Real-time health metrics, trend graphs, and appointment calendar |
+| 🩺 **Symptom Logging** | Log severity (1–10), duration, temperature, and notes daily |
+| 💊 **Medication Tracking** | Manage prescriptions, dosages, and frequencies |
+| 📅 **Appointment Scheduling** | Book and track doctor visits with status updates |
+| 📂 **Reports & Files** | Securely upload and manage medical documents |
+| 🤖 **AI Health Insights** | Powered by Google Gemini for intelligent health analysis |
+| ⚡ **Real-Time Updates** | Live sync across the app via Socket.IO |
+
+---
+
+## 🛠️ Tech Stack
+
+### Frontend
+- **React 19** + **Vite** — fast, modern UI framework
+- **TypeScript** — full type safety
+- **Tailwind CSS v4** — dark glassmorphism design system
+- **Framer Motion** — smooth animations and micro-interactions
+- **React Router v7** — client-side routing
+- **Recharts** — symptom trend visualizations
+- **React Big Calendar** — appointment calendar view
+- **Socket.IO Client** — real-time live updates
+- **Axios** — HTTP client for API calls
+
+### Backend
+- **Node.js** + **Express.js** — REST API server
+- **TypeScript** — consistent typing across the stack
+- **Prisma ORM** + **PostgreSQL** — robust relational database
+- **Google Gemini API** — AI-powered health insights
+- **Socket.IO** — real-time communication layer
+- **JWT** + **bcrypt** — secure authentication
+- **Multer** — file upload handling
+
+---
+
+## 🚀 Getting Started
+
+### Prerequisites
+
+Make sure you have the following installed:
+- [Node.js](https://nodejs.org/) v18 or higher
+- [PostgreSQL](https://www.postgresql.org/) database (local or hosted)
+- A [Google Gemini API Key](https://ai.google.dev/)
+
+---
+
+### Step 1 — Clone the Repository
+
+```bash
+git clone https://github.com/Adityatomar28/CareSync.git
+cd CareSync
 ```
 
-Then, navigate into the project directory:
+---
 
-```terminal
-cd express
-```
+### Step 2 — Set Up the Backend
 
-<details><summary><strong>Alternative:</strong> Clone the entire repo</summary>
-
-Clone this repository:
-
-```terminal
-git clone git@github.com:prisma/prisma-examples.git --depth=1
-```
-
-Install npm dependencies:
-
-```terminal
-cd prisma-examples/orm/express
+```bash
+cd backend
 npm install
 ```
 
-</details>
+Create a `.env` file inside the `backend/` directory:
 
-### 2. Create and seed the database
+```env
+# PostgreSQL connection string
+DATABASE_URL="postgresql://user:password@localhost:5432/caresync_db"
 
-Create a new [Prisma Postgres](https://www.prisma.io/docs/postgres/overview) database by executing:
+# Secret key for signing JWTs
+JWT_SECRET="your_jwt_secret_key"
 
-```terminal
-npx prisma init --db
+# Google Gemini API key for AI insights
+GEMINI_API_KEY="your_gemini_api_key"
+
+# Port the server listens on
+PORT=5000
 ```
 
-If you don't have a [Prisma Data Platform](https://console.prisma.io/) account yet, or if you are not logged in, the command will prompt you to log in using one of the available authentication providers. A browser window will open so you can log in or create an account. Return to the CLI after you have completed this step.
-
-Once logged in (or if you were already logged in), the CLI will prompt you to:
-1. Select a **region** (e.g. `us-east-1`)
-1. Enter a **project name**
-
-After successful creation, you will see output similar to the following:
-
-<details>
-
-<summary>CLI output</summary>
-
-```terminal
-Let's set up your Prisma Postgres database!
-? Select your region: ap-northeast-1 - Asia Pacific (Tokyo)
-? Enter a project name: testing-migration
-✔ Success! Your Prisma Postgres database is ready ✅
-
-We found an existing schema.prisma file in your current project directory.
-
---- Database URL ---
-
-Connect Prisma ORM to your Prisma Postgres database with this URL:
-
-postgresql://user:password@host:port/database
-
---- Next steps ---
-
-Go to https://pris.ly/ppg-init for detailed instructions.
-
-1. Install the PostgreSQL adapter
-This example uses the PostgreSQL driver adapter. If you haven't already installed it, install it in your project:
-npm install @prisma/adapter-pg
-
-2. Apply migrations
-Run the following command to create and apply a migration:
-npx prisma migrate dev
-
-3. Manage your data
-View and edit your data locally by running this command:
-npx prisma studio
-
-...or online in Console:
-https://console.prisma.io/{workspaceId}/{projectId}/studio
-
-4. Send queries from your app
-If you already have an existing app with Prisma ORM, you can now run it and it will send queries against your newly created Prisma Postgres instance.
-
-5. Learn more
-For more info, visit the Prisma Postgres docs: https://pris.ly/ppg-docs
-```
-
-</details>
-
-Locate and copy the database URL provided in the CLI output. Then, create a `.env` file in the project root:
+Run database migrations to set up your schema:
 
 ```bash
-touch .env
-```
-
-Now, paste the URL into it as a value for the `DATABASE_URL` environment variable. For example:
-
-```bash
-# .env
-DATABASE_URL=postgresql://user:password@host:port/database
-```
-
-Run the following command to create tables in your database. This creates the `User` and `Post` tables that are defined in [`prisma/schema.prisma`](./prisma/schema.prisma):
-
-```terminal
 npx prisma migrate dev --name init
 ```
 
-### 2.1. Configure Prisma Client with the adapter
+Start the backend development server:
 
-This example uses the PostgreSQL driver adapter. The Prisma Client is configured in [`src/index.ts`](./src/index.ts):
-
-```ts
-import { PrismaClient } from '../prisma/generated/client'
-import { PrismaPg } from '@prisma/adapter-pg'
-
-const pool = new PrismaPg({ connectionString: process.env.DATABASE_URL! })
-const prisma = new PrismaClient({ adapter: pool })
-```
-
-Execute the seed file in [`prisma/seed.ts`](./prisma/seed.ts) to populate your database with some sample data, by running:
-
-```terminal
-npx prisma db seed
-```
-
-### 3. Start the REST API server
-
-Start the development server:
-
-```terminal
+```bash
 npm run dev
 ```
 
-The server is now running on `http://localhost:3000`. You can now run the API requests, e.g. [`http://localhost:3000/feed`](http://localhost:3000/feed).
+> The backend API will be running at `http://localhost:5000`
 
-## Using the REST API
+---
 
-### Testing with `curl`
+### Step 3 — Set Up the Frontend
 
-You can run these `curl` commands to test all API endpoints:
+Open a **new terminal** and navigate to the frontend:
 
-#### `GET`
-
-##### Fetch a single post by its ID
-
-```sh
-curl -X GET http://localhost:3000/post/1
+```bash
+cd frontend
+npm install
 ```
 
-##### Fetch all published posts (with optional query parameters)
+Create a `.env` file inside the `frontend/` directory:
 
-```sh
-curl -X GET "http://localhost:3000/feed?searchString=prisma&take=2&orderBy=desc"
+```env
+VITE_API_URL="http://localhost:5000/api"
+VITE_SOCKET_URL="http://localhost:5000"
 ```
 
-##### Fetch a user's drafts by their ID
+Start the frontend development server:
 
-```sh
-curl -X GET http://localhost:3000/user/3/drafts
+```bash
+npm run dev
 ```
 
-##### Fetch all users
+> The app will be live at `http://localhost:5173` 🎉
 
-```sh
-curl -X GET http://localhost:3000/users
+---
+
+## 📂 Project Structure
+
+```
+CareSync/
+│
+├── backend/
+│   ├── prisma/                 # Database schema & migrations
+│   └── src/
+│       ├── controllers/        # Route handlers (business entry points)
+│       ├── middlewares/        # Auth checks, error handlers
+│       ├── routes/             # API route definitions
+│       ├── services/           # Core logic & Gemini AI integrations
+│       └── server.ts           # Express + Socket.IO setup
+│
+├── frontend/
+│   └── src/
+│       ├── components/         # Reusable UI components
+│       ├── context/            # Global state (e.g., AuthContext)
+│       ├── hooks/              # Custom hooks (e.g., useSocket)
+│       ├── pages/              # Full page views (Dashboard, Login, etc.)
+│       ├── services/           # API call functions
+│       └── App.tsx             # Root component & routing
+│
+└── README.md
 ```
 
-#### `POST`
+---
 
-##### Create a new post
-```sh
-curl -X POST http://localhost:3000/post \
-     -H "Content-Type: application/json" \
-     -d '{
-           "title": "My New Post",
-           "content": "This is an example post.",
-           "authorEmail": "mahmoud@prisma.io"
-         }'
-```
+## 🔑 Environment Variables Reference
 
-##### Create a new user
+### Backend (`backend/.env`)
 
-```sh
-curl -X POST http://localhost:3000/signup \
-     -H "Content-Type: application/json" \
-     -d '{
-           "email": "ankur@prisma.io",
-           "name": "Ankur Datta",
-           "postData": [
-             {
-               "title": "Hello World",
-               "content": "This is the content of the post"
-             }
-           ]
-         }'
-```
-
-#### `PUT`
-
-##### Toggle the publish status of a post
-
-```sh
-curl -X PUT http://localhost:3000/publish/4
-```
-
-##### Increase the view count of a post
-
-```sh
-curl -X PUT http://localhost:3000/post/2/views
-```
-
-#### `DELETE`
-
-##### Delete a post by its ID
+| Variable | Description |
+|---|---|
+| `DATABASE_URL` | PostgreSQL connection string |
+| `JWT_SECRET` | Secret key for JWT token signing |
+| `GEMINI_API_KEY` | Google Gemini API key for AI features |
+| `PORT` | Port for the Express server (default: 5000) |
 
-```sh
-curl -X DELETE http://localhost:3000/post/1
-```
+### Frontend (`frontend/.env`)
 
-### API endpoints
+| Variable | Description |
+|---|---|
+| `VITE_API_URL` | Base URL for backend REST API |
+| `VITE_SOCKET_URL` | URL for the Socket.IO server |
 
-<details><summary>Expand to see all API endpoints</summary>
+---
 
-### `GET`
+## 🧑‍💻 User Roles
 
-- `/post/:id`: Fetch a single post by its `id`
-- `/feed?searchString={searchString}&take={take}&skip={skip}&orderBy={orderBy}`: Fetch all _published_ posts
-  - Query Parameters
-    - `searchString` (optional): This filters posts by `title` or `content`
-    - `take` (optional): This specifies how many objects should be returned in the list
-    - `skip` (optional): This specifies how many of the returned objects in the list should be skipped
-    - `orderBy` (optional): The sort order for posts in either ascending or descending order. The value can either `asc` or `desc`
-- `/user/:id/drafts`: Fetch user's drafts by their `id`
-- `/users`: Fetch all users
-
-### `POST`
-
-- `/post`: Create a new post
-  - Body:
-    - `title: String` (required): The title of the post
-    - `content: String` (optional): The content of the post
-    - `authorEmail: String` (required): The email of the user that creates the post
-- `/signup`: Create a new user
-  - Body:
-    - `email: String` (required): The email address of the user
-    - `name: String` (optional): The name of the user
-    - `postData: PostCreateInput[]` (optional): The posts of the user
+CareSync supports three roles with different levels of access:
 
-### `PUT`
+- **Patient** — Log symptoms, view trends, manage meds, book appointments
+- **Doctor** — View patient records, manage appointments, access reports
+- **Admin** — Full system access and user management
 
-- `/publish/:id`: Toggle the publish value of a post by its `id`
-- `/post/:id/views`: Increases the `viewCount` of a `Post` by one `id`
+---
 
-### `DELETE`
+## 📜 License
 
-- `/post/:id`: Delete a post by its `id`
+This project is licensed under the [ISC License](https://opensource.org/licenses/ISC).
 
-</details>
+---
 
-## Evolving the app
+<div align="center">
 
-Evolving the application typically requires two steps:
+Built with ❤️ by [Aditya Tomar](https://github.com/Adityatomar28)
 
-1. Migrate your database using Prisma Migrate
-1. Update your application code
-
-For the following example scenario, assume you want to add a "profile" feature to the app where users can create a profile and write a short bio about themselves.
-
-### 1. Migrate your database using Prisma Migrate
-
-The first step is to add a new table, e.g. called `Profile`, to the database. You can do this by adding a new model to your [Prisma schema file](./prisma/schema.prisma) file and then running a migration afterwards:
-
-```diff
-// ./prisma/schema.prisma
-
-model User {
-  id      Int      @default(autoincrement()) @id
-  name    String?
-  email   String   @unique
-  posts   Post[]
-+ profile Profile?
-}
-
-model Post {
-  id        Int      @id @default(autoincrement())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  title     String
-  content   String?
-  published Boolean  @default(false)
-  viewCount Int      @default(0)
-  author    User?    @relation(fields: [authorId], references: [id])
-  authorId  Int?
-}
-
-+model Profile {
-+  id     Int     @default(autoincrement()) @id
-+  bio    String?
-+  user   User    @relation(fields: [userId], references: [id])
-+  userId Int     @unique
-+}
-```
-
-Once you've updated your data model, you can execute the changes against your database with the following command:
-
-```terminal
-npx prisma migrate dev --name add-profile
-```
-
-This adds another migration to the `prisma/migrations` directory and creates the new `Profile` table in the database.
-
-### 2. Update your application code
-
-You can now use your `PrismaClient` instance to perform operations against the new `Profile` table. Those operations can be used to implement API endpoints in the REST API.
-
-#### 2.1 Add the API endpoint to your app
-
-Update your `index.ts` file by adding a new endpoint to your API:
-
-```ts
-app.post('/user/:id/profile', async (req, res) => {
-  const { id } = req.params
-  const { bio } = req.body
-
-  const profile = await prisma.profile.create({
-    data: {
-      bio,
-      user: {
-        connect: {
-          id: Number(id)
-        }
-      }
-    }
-  })
-
-  res.json(profile)
-})
-```
-
-#### 2.2 Testing out your new endpoint
-
-Restart your application server and test out your new endpoint.
-
-##### `POST`
-
-- `/user/:id/profile`: Create a new profile based on the user id
-  - Body:
-    - `bio: String` : The bio of the user
-
-
-<details><summary>Expand to view more sample Prisma Client queries on <code>Profile</code></summary>
-
-Here are some more sample Prisma Client queries on the new <code>Profile</code> model:
-
-##### Create a new profile for an existing user
-
-```ts
-const profile = await prisma.profile.create({
-  data: {
-    bio: 'Hello World',
-    user: {
-      connect: { email: 'alice@prisma.io' },
-    },
-  },
-})
-```
-
-##### Create a new user with a new profile
-
-```ts
-const user = await prisma.user.create({
-  data: {
-    email: 'john@prisma.io',
-    name: 'John',
-    profile: {
-      create: {
-        bio: 'Hello World',
-      },
-    },
-  },
-})
-```
-
-##### Update the profile of an existing user
-
-```ts
-const userWithUpdatedProfile = await prisma.user.update({
-  where: { email: 'alice@prisma.io' },
-  data: {
-    profile: {
-      update: {
-        bio: 'Hello Friends',
-      },
-    },
-  },
-})
-```
-
-</details>
-
-## Switch to another database (e.g. SQLite, MySQL, SQL Server, MongoDB)
-
-If you want to try this example with another database than Postgres, you can adjust the the database connection in [`prisma/schema.prisma`](./prisma/schema.prisma) by reconfiguring the `datasource` block.
-
-Learn more about the different connection configurations in the [docs](https://www.prisma.io/docs/reference/database-reference/connection-urls).
-
-<details><summary>Expand for an overview of example configurations with different databases</summary>
-
-### Your own PostgreSQL database
-
-This example already uses a standard PostgreSQL connection with the `@prisma/adapter-pg` adapter. You can connect to any PostgreSQL database using a standard connection string.
-
-### SQLite
-
-Modify the `provider` value in the `datasource` block in the [`prisma.schema`](./prisma/schema.prisma) file:
-
-```prisma
-datasource db {
-  provider = "sqlite"
-  url      = env("DATABASE_URL")
-}
-```
-
-Create an `.env` file and add the SQLite database connection string in it. For example:
-
-```terminal
-DATABASE_URL="file:./dev.db""
-```
-
-### MySQL
-
-Modify the `provider` value in the `datasource` block in the [`prisma.schema`](./prisma/schema.prisma) file:
-
-```prisma
-datasource db {
-  provider = "mysql"
-  url      = env("DATABASE_URL")
-}
-```
-
-Create an `.env` file and add a MySQL database connection string in it. For example:
-
-```terminal
-## This is a placeholder url
-DATABASE_URL="mysql://janedoe:mypassword@localhost:3306/notesapi"
-```
-
-### Microsoft SQL Server
-
-Modify the `provider` value in the `datasource` block in the [`prisma.schema`](./prisma/schema.prisma) file:
-
-```prisma
-datasource db {
-  provider = "sqlserver"
-  url      = env("DATABASE_URL")
-}
-```
-
-Create an `.env` file and add a Microsoft SQL Server database connection string in it. For example:
-
-```terminal
-## This is a placeholder url
-DATABASE_URL="sqlserver://localhost:1433;initial catalog=sample;user=sa;password=mypassword;"
-```
-
-### MongoDB
-
-Modify the `provider` value in the `datasource` block in the [`prisma.schema`](./prisma/schema.prisma) file:
-
-```prisma
-datasource db {
-  provider = "mongodb"
-  url      = env("DATABASE_URL")
-}
-```
-
-Create an `.env` file and add a local MongoDB database connection string in it. For example:
-
-```terminal
-## This is a placeholder url
-DATABASE_URL="mongodb://USERNAME:PASSWORD@HOST/DATABASE?authSource=admin&retryWrites=true&w=majority"
-```
-
-</details>
-
-## Next steps
-
-- Check out the [Prisma docs](https://www.prisma.io/docs)
-- [Join our community on Discord](https://pris.ly/discord?utm_source=github&utm_medium=prisma_examples&utm_content=next_steps_section) to share feedback and interact with other users.
-- [Subscribe to our YouTube channel](https://pris.ly/youtube?utm_source=github&utm_medium=prisma_examples&utm_content=next_steps_section) for live demos and video tutorials.
-- [Follow us on X](https://pris.ly/x?utm_source=github&utm_medium=prisma_examples&utm_content=next_steps_section) for the latest updates.
-- Report issues or ask [questions on GitHub](https://pris.ly/github?utm_source=github&utm_medium=prisma_examples&utm_content=next_steps_section).
+</div>
