@@ -20,7 +20,8 @@
 
 > Dashboard overview with live health metrics, symptom trend graphs, and appointment tracking.
 
-![CareSync Dashboard](./screenshot.png)
+<img width="1448" height="669" alt="Screenshot 2026-05-01 at 5 16 46 AM" src="https://github.com/user-attachments/assets/af8bd2f8-2018-4e58-96dd-1cf34d651d13" />
+
 
 ---
 
