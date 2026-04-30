@@ -9,6 +9,10 @@ import symptomRoutes from './routes/symptom.routes';
 import medicationRoutes from './routes/medication.routes';
 import appointmentRoutes from './routes/appointment.routes';
 import chatRoutes from './routes/chat.routes';
+import reportRoutes from './routes/report.routes';
+
+
+
 
 const app = express();
 const PORT = process.env.PORT || 5001;
@@ -24,6 +28,7 @@ const io = new Server(httpServer, {
 
 // Share io instance with Express app
 app.set('io', io);
+app.use('/uploads', express.static('uploads'));
 
 // Socket.io Middleware for JWT Authentication
 io.use((socket, next) => {
@@ -64,6 +69,7 @@ app.use('/api/symptoms', symptomRoutes);
 app.use('/api/medications', medicationRoutes);
 app.use('/api/appointments', appointmentRoutes);
 app.use('/api/chat', chatRoutes);
+app.use('/api/reports', reportRoutes);
 
 // Health Check
 app.get('/api/health', (req, res) => {

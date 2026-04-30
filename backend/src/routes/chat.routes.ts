@@ -8,3 +8,5 @@ const router = Router();
 router.post('/', authenticateJWT as any, sendMessage as any);
 
 export default router;
+
+

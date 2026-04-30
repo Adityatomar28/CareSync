@@ -23,6 +23,7 @@ model User {
   appointments Appointment[]
   createdAt    DateTime     @default(now())
   updatedAt    DateTime     @updatedAt
+  reports  Report[]
 }
 
 model SymptomLog {
@@ -78,4 +79,19 @@ enum AppointmentStatus {
   SCHEDULED
   COMPLETED
   CANCELLED
+}
+
+model Report {
+  id String @id @default(uuid())
+  userId String
+  user User @relation(fields: [userId],references: [id])
+  fileName String
+  fileUrl String
+  fileType String
+  notes String?
+  uploadedAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([userId])
+
 }

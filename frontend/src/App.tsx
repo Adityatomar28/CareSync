@@ -11,6 +11,7 @@ import Appointments from './pages/Appointments';
 import Symptoms from './pages/Symptoms';
 import CalendarView from './pages/CalendarView';
 import Chat from './pages/Chat';
+import Reports from './pages/Reports';
 
 function App() {
   return (
@@ -28,6 +29,7 @@ function App() {
               <Route path="symptoms" element={<Symptoms />} />
               <Route path="medications" element={<Medications />} />
               <Route path="appointments" element={<Appointments />} />
+              <Route path="reports" element={<Reports />} />
             </Route>
           </Route>
 

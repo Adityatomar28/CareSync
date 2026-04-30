@@ -1,5 +1,5 @@
 import { Link, useLocation } from 'react-router-dom';
-import { Home, Pill, CalendarCheck, LogOut, HeartPulse, Activity, Calendar, MessageSquare } from 'lucide-react';
+import { Home, Pill, CalendarCheck, LogOut, HeartPulse, Activity, Calendar, MessageSquare, FileText } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 
 export default function Sidebar() {
@@ -13,6 +13,7 @@ export default function Sidebar() {
     { to: '/dashboard/symptoms', label: 'Symptoms', icon: <Activity size={20} /> },
     { to: '/dashboard/medications', label: 'Medications', icon: <Pill size={20} /> },
     { to: '/dashboard/appointments', label: 'Appointments', icon: <CalendarCheck size={20} /> },
+    { to: '/dashboard/reports', label: 'Reports', icon: <FileText size={20} /> },
   ];
 
   return (
