@@ -198,11 +198,10 @@ CareSync/
 
 ## 🧑‍💻 User Roles
 
-CareSync supports three roles with different levels of access:
+CareSync supports role with different levels of access:
 
 - **Patient** — Log symptoms, view trends, manage meds, book appointments
-- **Doctor** — View patient records, manage appointments, access reports
-- **Admin** — Full system access and user management
+
 
 ---
 
