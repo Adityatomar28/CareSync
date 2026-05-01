@@ -1,3 +1,4 @@
+<img width="816" height="680" alt="Screenshot 2026-05-01 at 5 55 06 AM" src="https://github.com/user-attachments/assets/a3be0de0-e586-40a4-abf2-8acd4325ddc7" />
 <div align="center">
 
 # 🏥 CareSync
@@ -175,7 +176,7 @@ CareSync/
 └── README.md
 ```
 ##DATABASE
-[Untitled.pdf](https://github.com/user-attachments/files/27265038/Untitled.pdf)
+
 
 ---
 
